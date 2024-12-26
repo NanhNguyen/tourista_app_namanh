@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "207986500147",
+    "firebase_url": "https://tourista-app-a9c6e-default-rtdb.firebaseio.com",
+    "project_id": "tourista-app-a9c6e",
+    "storage_bucket": "tourista-app-a9c6e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:207986500147:android:5b1271693ee5fbb2bc3946",
+        "android_client_info": {
+          "package_name": "com.nanh.tourista"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAWdAHFMBOUJcp5Rie0vr7Xn9gUw3ep-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
