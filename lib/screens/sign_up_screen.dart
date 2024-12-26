@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tourista_app/screens/sign_up_screen.dart';
+import 'package:tourista_app/screens/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  TextEditingController userNamelEditController = TextEditingController();
   TextEditingController emailEditController = TextEditingController();
   TextEditingController passWordEditController = TextEditingController();
   @override
@@ -22,8 +23,11 @@ class _LoginScreenState extends State<LoginScreen> {
             icon: const Icon(Icons.arrow_back_ios_new_rounded)),
       ),
       body: Padding(
-        padding:
-            const EdgeInsets.only(top: 20, left: 10, right: 10, bottom: 40),
+        padding: const EdgeInsets.only(
+          top: 20,
+          left: 10,
+          right: 10,
+        ),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -46,6 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 20,
               ),
               TextField(
+                controller: userNamelEditController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), hintText: 'Username'),
+              ),
+              const SizedBox(height: 25),
+              TextField(
                 controller: emailEditController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), hintText: 'Email'),
@@ -56,6 +66,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: passWordEditController,
                 decoration: const InputDecoration(
                     border: OutlineInputBorder(), hintText: 'Password'),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Password must be 8 characters",
+                  style: TextStyle(color: Color(0xff7D848D), fontSize: 14),
+                ),
               ),
               const SizedBox(
                 height: 80,
@@ -69,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 child: const Center(
                   child: Text(
-                    'Sign In',
+                    'Sign Up',
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
@@ -81,24 +101,24 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account? ",
+                    "Already have an account? ",
                     style: TextStyle(color: Color(0xff707B81), fontSize: 14),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const SignUpScreen(),
+                        builder: (BuildContext context) => const LoginScreen(),
                       ));
                     },
                     child: const Text(
-                      "Sign up",
+                      "Sign in",
                       style: TextStyle(color: Color(0xffFF6421), fontSize: 14),
                     ),
                   ),
                 ],
               ),
               const SizedBox(
-                height: 100,
+                height: 50,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -141,8 +161,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         fit: BoxFit.fill,
                       ),
                     ),
-                  )
+                  ),
                 ],
+              ),
+              const SizedBox(
+                height: 20,
               )
             ],
           ),
