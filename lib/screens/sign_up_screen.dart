@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourista_app/firebase/firebase_authentication.dart';
 import 'package:tourista_app/screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -80,17 +81,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(
                 height: 80,
               ),
-              Container(
-                height: 68,
-                width: 360,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: const Color(0xffFF6421),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Sign Up',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  FirebaseAuthenticationService.createAccount(
+                      userNamelEditController.text,
+                      emailEditController.text,
+                      passWordEditController.text,
+                      context);
+                },
+                child: Container(
+                  height: 68,
+                  width: 360,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xffFF6421),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Sign Up',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
@@ -106,9 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => const LoginScreen(),
-                      ));
+                      Navigator.pop(context);
                     },
                     child: const Text(
                       "Sign in",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourista_app/firebase/firebase_authentication.dart';
 import 'package:tourista_app/screens/sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,17 +61,23 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 80,
               ),
-              Container(
-                height: 68,
-                width: 360,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: const Color(0xffFF6421),
-                ),
-                child: const Center(
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+              GestureDetector(
+                onTap: () {
+                  FirebaseAuthenticationService.signIn(emailEditController.text,
+                      passWordEditController.text, context);
+                },
+                child: Container(
+                  height: 68,
+                  width: 360,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xffFF6421),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Sign In',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ),

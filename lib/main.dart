@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourista_app/screens/home_screen.dart';
 import 'package:tourista_app/screens/login_screen.dart';
 import 'package:tourista_app/screens/sign_up_screen.dart';
 import 'package:tourista_app/screens/splash_screen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xffFF6421)),
         useMaterial3: true,
       ),
-      home: const SignUpScreen(),
+      home: const HomeScreen(),
     );
   }
 }
