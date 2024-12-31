@@ -22,10 +22,10 @@ class _IntroScreenState extends State<IntroScreen> {
         Expanded(
           child: PageView(
             controller: controller,
-            children: const [
-              Page1(),
-              Page2(),
-              Page3(),
+            children: [
+              Page1(controller: controller),
+              Page2(controller: controller),
+              const Page3(),
             ],
           ),
         ),

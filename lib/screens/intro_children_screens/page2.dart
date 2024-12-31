@@ -1,9 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:tourista_app/screens/login_screen.dart';
 
 class Page2 extends StatelessWidget {
-  const Page2({super.key});
+  final PageController controller;
+  const Page2({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,12 @@ class Page2 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const LoginScreen(),
+                        ));
+                      },
                       child: const Text(
                         'Skip',
                         style: TextStyle(color: Colors.white, fontSize: 16),
@@ -75,6 +83,9 @@ class Page2 extends StatelessWidget {
                   height: 50,
                 ),
                 GestureDetector(
+                  onTap: () => controller.nextPage(
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut),
                   child: Container(
                     height: 60,
                     width: 350,
