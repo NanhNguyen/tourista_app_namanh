@@ -1,3 +1,5 @@
+import 'package:firebase_database/firebase_database.dart';
+
 class TravelPlace {
   String name;
   String image;
@@ -11,6 +13,15 @@ class TravelPlace {
     required this.location,
     required this.rating,
   });
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "image": image,
+      "description": description,
+      'rating': rating,
+      'location': location
+    };
+  }
 }
 
 List<TravelPlace> travelPlaces = [
@@ -71,3 +82,16 @@ List<TravelPlace> travelPlaces = [
       location: "Shakartu, Pakistan",
       rating: 4.5),
 ];
+
+Future<void> uploadTravelPlacesToFireBaseIfNotExist() async {
+  DatabaseReference ref = FirebaseDatabase.instance.ref("travelPlaces");
+  DatabaseEvent event = await ref.once();
+  if (event.snapshot.value == null) {
+    for (var place in travelPlaces) {
+      await ref.push().set(place.toJson());
+    }
+    print("Data has been pushed on Firebase");
+  } else {
+    print("Data is existed");
+  }
+}
