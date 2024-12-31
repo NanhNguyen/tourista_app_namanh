@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourista_app/screens/detail_screen.dart';
 import 'package:tourista_app/screens/home_screen.dart';
 import 'package:tourista_app/screens/login_screen.dart';
 import 'package:tourista_app/screens/sign_up_screen.dart';

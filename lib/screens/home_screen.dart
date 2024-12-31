@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tourista_app/data/database.dart';
+import 'package:tourista_app/screens/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -120,6 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: travelPlaces.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                DetailScreen(place: travelPlaces[index]),
+                          ));
+                        },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
