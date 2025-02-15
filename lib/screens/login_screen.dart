@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tourista_app/firebase/firebase_authentication.dart';
+import 'package:tourista_app/screens/dashboard_screen.dart';
 import 'package:tourista_app/screens/sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Center(
                 child: Text(
                   "Please sign in to continue our app",
-                  style: TextStyle(fontSize: 16, color: Color(0xff7D848D)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff7D848D)),
                 ),
               ),
               const SizedBox(
@@ -49,26 +50,49 @@ class _LoginScreenState extends State<LoginScreen> {
               TextField(
                 controller: emailEditController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Email'),
+                    hintText: 'Email',
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: Color(0xffF7F7F9)),
               ),
               const SizedBox(height: 25),
               TextField(
                 obscureText: true,
                 controller: passWordEditController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Password'),
+                    border: InputBorder.none,
+                    hintText: 'Password',
+                    filled: true,
+                    fillColor: Color(0xffF7F7F9)),
               ),
               const SizedBox(
                 height: 80,
               ),
               GestureDetector(
-                onTap: () {
-                  FirebaseAuthenticationService.signIn(emailEditController.text,
-                      passWordEditController.text, context);
+                onTap: () async {
+                  // bool success = await FirebaseAuthenticationService.signIn(
+                  //     emailEditController.text,
+                  //     passWordEditController.text,
+                  //     context);
+                  // if (success) {
+                  //   Navigator.pushReplacement(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => const DashboardScreen(),
+                  //       ));
+                  // }
+                  await FirebaseAuthenticationService.signIn(
+                      emailEditController.text,
+                      passWordEditController.text,
+                      context);
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const DashboardScreen(),
+                      ));
                 },
                 child: Container(
                   height: 68,
-                  width: 360,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: const Color(0xffFF6421),

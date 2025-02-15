@@ -1,19 +1,46 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourista_app/data/database.dart';
+import 'package:tourista_app/firebase/place_firebase_service.dart';
+import 'package:tourista_app/riverpod/detail_notifier.dart';
+import 'package:tourista_app/riverpod/home_notifier.dart';
+import 'package:tourista_app/screens/edit_place.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends ConsumerStatefulWidget {
   final TravelPlace place;
-  const DetailScreen({super.key, required this.place});
+  final int STT;
+  const DetailScreen({super.key, required this.place, required this.STT});
+
+  @override
+  ConsumerState<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends ConsumerState<DetailScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        ref
+            .read(detailStateNotifierProvider.notifier)
+            .setPlaceState(widget.place);
+      },
+    );
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final placeDetail = ref.watch(detailStateNotifierProvider.select(
+      (value) => value.place,
+    ));
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          Image.asset(place.image),
+          Image.asset(widget.place.image),
           Column(
             children: [
               Padding(
@@ -39,12 +66,25 @@ class DetailScreen extends StatelessWidget {
                           color: Colors.white,
                         )),
                     IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.bookmark_border_outlined,
-                          size: 35,
-                          color: Colors.white,
-                        ))
+                        onPressed: () {
+                          ref
+                              .read(detailStateNotifierProvider.notifier)
+                              .onClick();
+                          ref
+                              .read(homeStateNotifierProvider.notifier)
+                              .onClickToChangeTheBookMark(widget.STT);
+                        },
+                        icon: (placeDetail?.save ?? false)
+                            ? Icon(
+                                Icons.bookmark,
+                                size: 35,
+                                color: Colors.amber[700],
+                              )
+                            : const Icon(
+                                Icons.bookmark_border_outlined,
+                                size: 35,
+                                color: Colors.white,
+                              ))
                   ],
                 ),
               ),
@@ -70,18 +110,38 @@ class DetailScreen extends StatelessWidget {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    place.name,
+                                    widget.place.name,
                                     style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Color(0xff1A1A1A),
                                         fontSize: 18),
                                   ),
                                 ),
-                                const Icon(
-                                  Icons.edit_outlined,
-                                  size: 30,
-                                  color: Color(0xffFF6421),
-                                )
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => EditPlace(
+                                            place: widget.place,
+                                          ),
+                                        ));
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit_outlined,
+                                    size: 30,
+                                    color: Color(0xffFF6421),
+                                  ),
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      TravelPlaceFirebaseService.deleteProduct(
+                                          id: widget.place.id.toString());
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_outline_rounded,
+                                      color: Color(0xff9a9a9a),
+                                    ))
                               ],
                             ),
                             const SizedBox(height: 10),
@@ -108,7 +168,7 @@ class DetailScreen extends StatelessWidget {
                                   color: Colors.amber[700],
                                 ),
                                 const SizedBox(width: 10),
-                                Text(place.rating.toString()),
+                                Text(widget.place.rating.toString()),
                                 const SizedBox(width: 10),
                                 const Text("(1.2k reviews)"),
                               ],
@@ -124,7 +184,7 @@ class DetailScreen extends StatelessWidget {
                                   width: 10,
                                 ),
                                 Text(
-                                  place.location,
+                                  widget.place.location,
                                   style:
                                       const TextStyle(color: Color(0xff9A9A9A)),
                                 ),
@@ -146,7 +206,7 @@ class DetailScreen extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          place.description,
+                          widget.place.description,
                           style: const TextStyle(fontSize: 13),
                         ),
                         const SizedBox(

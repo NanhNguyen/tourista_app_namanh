@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tourista_app/firebase/firebase_authentication.dart';
+import 'package:tourista_app/screens/dashboard_screen.dart';
 import 'package:tourista_app/screens/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -10,7 +11,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  TextEditingController userNamelEditController = TextEditingController();
+  TextEditingController confirmPasswordEditController = TextEditingController();
   TextEditingController emailEditController = TextEditingController();
   TextEditingController passWordEditController = TextEditingController();
   @override
@@ -44,29 +45,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const Center(
                 child: Text(
                   "Please sign in to continue our app",
-                  style: TextStyle(fontSize: 16, color: Color(0xff7D848D)),
+                  style: TextStyle(fontSize: 12, color: Color(0xff7D848D)),
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
               TextField(
-                controller: userNamelEditController,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Username'),
-              ),
-              const SizedBox(height: 25),
-              TextField(
                 controller: emailEditController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Email'),
+                    hintText: 'Email',
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: Color(0xffF7F7F9)),
               ),
               const SizedBox(height: 25),
               TextField(
                 obscureText: true,
                 controller: passWordEditController,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Password'),
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: Color(0xffF7F7F9),
+                    hintText: 'Password'),
+              ),
+              const SizedBox(
+                height: 13,
+              ),
+              TextField(
+                obscureText: true,
+                controller: confirmPasswordEditController,
+                decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: Color(0xffF7F7F9),
+                    hintText: 'Confirm Password'),
               ),
               const SizedBox(
                 height: 13,
@@ -75,23 +88,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Password must be 8 characters",
-                  style: TextStyle(color: Color(0xff7D848D), fontSize: 14),
+                  style: TextStyle(color: Color(0xff7D848D), fontSize: 12),
                 ),
               ),
               const SizedBox(
                 height: 80,
               ),
               GestureDetector(
-                onTap: () {
-                  FirebaseAuthenticationService.createAccount(
-                      userNamelEditController.text,
+                onTap: () async {
+                  bool createAcc =
+                      await FirebaseAuthenticationService.createAccount(
+                          emailEditController.text,
+                          passWordEditController.text,
+                          confirmPasswordEditController.text,
+                          context);
+
+                  await FirebaseAuthenticationService.createAccount(
                       emailEditController.text,
                       passWordEditController.text,
+                      confirmPasswordEditController.text,
                       context);
+                  if (createAcc) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DashboardScreen(),
+                        ));
+                  }
                 },
                 child: Container(
                   height: 68,
-                  width: 360,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: const Color(0xffFF6421),

@@ -19,7 +19,7 @@ class _IntroScreenState extends State<IntroScreen> {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        Expanded(
+        Positioned.fill(
           child: PageView(
             controller: controller,
             children: [
