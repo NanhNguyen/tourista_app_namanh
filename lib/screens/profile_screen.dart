@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tourista_app/screens/edit_profile_screen.dart';
 import 'package:tourista_app/screens/favorite_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -21,7 +22,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const EditProfileScreen(),
+                ));
+              },
               icon: const Icon(
                 Icons.edit_outlined,
                 color: Color(0xffFF6421),

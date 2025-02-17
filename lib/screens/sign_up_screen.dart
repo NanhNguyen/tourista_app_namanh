@@ -163,7 +163,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        "https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338507_1280.png",
+                        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1024px-2023_Facebook_icon.svg.png",
                         fit: BoxFit.fill,
                       ),
                     ),
