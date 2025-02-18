@@ -10,9 +10,11 @@ class FirebaseAuthenticationService {
     try {
       await firebaseAuthentication.signInWithEmailAndPassword(
           email: email, password: password);
+      return true;
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Invalid User or Password. Please try again... $e')));
+      return false;
     }
   }
 

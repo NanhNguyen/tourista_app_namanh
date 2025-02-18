@@ -21,8 +21,13 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(target: _center),
-      ),
+          initialCameraPosition: CameraPosition(target: _center, zoom: 12),
+          markers: {
+            Marker(
+              markerId: MarkerId('Hanoi'),
+              position: _center,
+            ),
+          }),
     );
   }
 }

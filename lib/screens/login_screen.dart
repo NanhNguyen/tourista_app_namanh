@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourista_app/firebase/firebase_authentication.dart';
+import 'package:tourista_app/riverpod/sign_in_notifier.dart';
 import 'package:tourista_app/screens/dashboard_screen.dart';
 import 'package:tourista_app/screens/sign_up_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   TextEditingController emailEditController = TextEditingController();
   TextEditingController passWordEditController = TextEditingController();
   @override
@@ -56,40 +58,53 @@ class _LoginScreenState extends State<LoginScreen> {
                     fillColor: Color(0xffF7F7F9)),
               ),
               const SizedBox(height: 25),
-              TextField(
-                obscureText: true,
-                controller: passWordEditController,
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Password',
-                    filled: true,
-                    fillColor: Color(0xffF7F7F9)),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  TextField(
+                    obscureText: ref.watch(signInStateNotifierProvider.select(
+                      (value) => value.showPassword,
+                    )),
+                    controller: passWordEditController,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Password',
+                        filled: true,
+                        fillColor: Color(0xffF7F7F9)),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        ref
+                            .read(signInStateNotifierProvider.notifier)
+                            .togglePassword();
+                      },
+                      icon: Icon(ref.watch(signInStateNotifierProvider.select(
+                        (value) => value.showPassword,
+                      ))
+                          ? Icons.visibility
+                          : Icons.visibility_off))
+                ],
               ),
               const SizedBox(
                 height: 80,
               ),
               GestureDetector(
-                onTap: () async {
-                  // bool success = await FirebaseAuthenticationService.signIn(
-                  //     emailEditController.text,
-                  //     passWordEditController.text,
-                  //     context);
-                  // if (success) {
-                  //   Navigator.pushReplacement(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => const DashboardScreen(),
-                  //       ));
-                  // }
-                  await FirebaseAuthenticationService.signIn(
-                      emailEditController.text,
-                      passWordEditController.text,
-                      context);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DashboardScreen(),
-                      ));
+                onTap: () {
+                  Future.microtask(() async {
+                    bool success = await FirebaseAuthenticationService.signIn(
+                        emailEditController.text,
+                        passWordEditController.text,
+                        context);
+                    if (success) {
+                      if (context.mounted) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const DashboardScreen(),
+                            ));
+                      }
+                    }
+                  });
                 },
                 child: Container(
                   height: 68,

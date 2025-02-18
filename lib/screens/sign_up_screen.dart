@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourista_app/firebase/firebase_authentication.dart';
+import 'package:tourista_app/riverpod/sign_up_notifier.dart';
 import 'package:tourista_app/screens/dashboard_screen.dart';
 import 'package:tourista_app/screens/login_screen.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   TextEditingController confirmPasswordEditController = TextEditingController();
   TextEditingController emailEditController = TextEditingController();
   TextEditingController passWordEditController = TextEditingController();
@@ -70,16 +72,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     hintText: 'Password'),
               ),
               const SizedBox(
-                height: 13,
+                height: 25,
               ),
-              TextField(
-                obscureText: true,
-                controller: confirmPasswordEditController,
-                decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    filled: true,
-                    fillColor: Color(0xffF7F7F9),
-                    hintText: 'Confirm Password'),
+              Stack(
+                alignment: Alignment.centerRight,
+                children: [
+                  TextField(
+                    obscureText: ref.watch(signUpStateNotifierProvider.select(
+                      (value) => value.showPassword,
+                    )),
+                    controller: confirmPasswordEditController,
+                    decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        filled: true,
+                        fillColor: Color(0xffF7F7F9),
+                        hintText: 'Confirm Password'),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        ref
+                            .read(signUpStateNotifierProvider.notifier)
+                            .togglePassword();
+                      },
+                      icon: Icon(ref.watch(signUpStateNotifierProvider.select(
+                        (value) => value.showPassword,
+                      ))
+                          ? Icons.visibility
+                          : Icons.visibility_off))
+                ],
               ),
               const SizedBox(
                 height: 13,
