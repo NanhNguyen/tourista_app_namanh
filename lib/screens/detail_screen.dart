@@ -1,17 +1,21 @@
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourista_app/data/database.dart';
 import 'package:tourista_app/firebase/place_firebase_service.dart';
+import 'package:tourista_app/firebase/travel_places_model.dart';
 import 'package:tourista_app/riverpod/detail_notifier.dart';
 import 'package:tourista_app/riverpod/home_notifier.dart';
 import 'package:tourista_app/screens/edit_place.dart';
 
 class DetailScreen extends ConsumerStatefulWidget {
-  final TravelPlace place;
-  final int STT;
-  const DetailScreen({super.key, required this.place, required this.STT});
+  final TravelPlacesModel place;
+  const DetailScreen({
+    super.key,
+    required this.place,
+  });
 
   @override
   ConsumerState<DetailScreen> createState() => _DetailScreenState();
@@ -33,9 +37,6 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final placeDetail = ref.watch(detailStateNotifierProvider.select(
-      (value) => value.place,
-    ));
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Stack(
@@ -67,14 +68,17 @@ class _DetailScreenState extends ConsumerState<DetailScreen> {
                         )),
                     IconButton(
                         onPressed: () {
-                          ref
-                              .read(detailStateNotifierProvider.notifier)
-                              .onClick();
-                          ref
-                              .read(homeStateNotifierProvider.notifier)
-                              .onClickToChangeTheBookMark(widget.STT);
+                          // ref
+                          //     .read(detailStateNotifierProvider.notifier)
+                          //     .onClick();
+                          // ref
+                          //     .read(homeStateNotifierProvider.notifier)
+                          //     .onClickToChangeTheBookMark(widget.STT);
+                          TravelPlaceFirebaseService.onChangeFavorite(
+                              places: widget.place,
+                              isFavorite: !widget.place.favorite);
                         },
-                        icon: (placeDetail?.save ?? false)
+                        icon: (widget.place.favorite)
                             ? Icon(
                                 Icons.bookmark,
                                 size: 35,

@@ -52,28 +52,6 @@ class _AddPlaceState extends State<AddPlace> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Hotel ID",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 55,
-                width: 350,
-                child: TextField(
-                  controller: placeIDController,
-                  style: const TextStyle(fontSize: 13),
-                  decoration: InputDecoration(
-                      hintText: 'Input for hotel ID',
-                      hintStyle: const TextStyle(
-                          fontSize: 14, color: Color(0xff9a9a9a)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(color: Colors.black))),
-                ),
-              ),
               const SizedBox(
                 height: 10,
               ),
@@ -262,7 +240,6 @@ class _AddPlaceState extends State<AddPlace> {
                   GestureDetector(
                     onTap: () {
                       TravelPlaceFirebaseService.addTravelPlace(
-                        id: placeIDController.text,
                         name: placeNameController.text,
                         address: placeAddressController.text,
                         description: placeDescriptionController.text,

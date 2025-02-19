@@ -11,33 +11,54 @@ class TravelPlaceFirebaseService {
     return databaseReference.onValue
         .asBroadcastStream()
         .map<List<TravelPlacesModel>>((event) {
+      // print(event.snapshot.value);
+
       final data = event.snapshot.value.toMap ?? {};
+      // print(data);
       List<Map<String, dynamic>> values =
           data.entries.map<Map<String, dynamic>>((entry) {
         return entry.value as Map<String, dynamic>;
       }).toList();
+      print(values);
       final places = values.map(
         (e) {
           return TravelPlacesModel.fromJson(e);
         },
       ).toList();
+      print(places);
+      // print("lsdjfklajfk $data");
       return places;
     });
   }
 
   static void addTravelPlace({
-    required String id,
     required String name,
     required String address,
     required String description,
   }) {
+    final id = DateTime.now().millisecondsSinceEpoch.toString();
     final place = {
       'name': name,
-      'double': id,
+      'id': id,
       'address': address,
       'description': description,
     };
     databaseReference.child(id).set(place);
+  }
+
+  static void onChangeFavorite({
+    required TravelPlacesModel places,
+    required bool isFavorite,
+  }) {
+    final place = {
+      'favorite': isFavorite,
+      'name': places.name,
+      'id': places.id,
+      'address': places.location,
+      'description': places.description,
+      'image': places.image,
+    };
+    databaseReference.child(places.id).update(place);
   }
 
   static void editTravelPlace({

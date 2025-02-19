@@ -9,7 +9,7 @@ import 'package:tourista_app/firebase/place_firebase_service.dart';
 import 'package:tourista_app/firebase/travel_places_model.dart';
 
 class EditPlace extends StatefulWidget {
-  final TravelPlace place;
+  final TravelPlacesModel place;
   const EditPlace({super.key, required this.place});
 
   @override
