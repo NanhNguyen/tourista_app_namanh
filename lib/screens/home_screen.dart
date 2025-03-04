@@ -130,7 +130,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: StreamBuilder<List<TravelPlacesModel>>(
                       stream: TravelPlaceFirebaseService.travelPlaceStream,
                       builder: (context, snapshot) {
+                        //TODO: chi can them dieu kien cac dia diem co fav la duoc man hinh favorite
                         final places = snapshot.data ?? [];
+
+                        ///
+                        if (places.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "Loading Places....",
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.grey[600]),
+                            ),
+                          );
+                        }
                         // print(places.first.name);
                         return ListView.separated(
                           shrinkWrap: true,

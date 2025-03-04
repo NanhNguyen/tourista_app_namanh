@@ -120,7 +120,7 @@ Future<void> uploadTravelPlacesToFireBaseIfNotExist() async {
   DatabaseEvent event = await ref.once();
   if (event.snapshot.value == null) {
     for (var place in travelPlaces) {
-      await ref.child(place.id.toString()).set(place.toJson());
+      await ref.push().set(place.toJson());
     }
     print("Data has been pushed on Firebase");
   } else {

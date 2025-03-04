@@ -15,14 +15,14 @@ class TravelPlaceFirebaseService {
 
       final data = event.snapshot.value.toMap ?? {};
       // print(data);
-      List<Map<String, dynamic>> values =
-          data.entries.map<Map<String, dynamic>>((entry) {
-        return entry.value as Map<String, dynamic>;
+      List<MapEntry<String, dynamic>> values =
+          data.entries.map<MapEntry<String, dynamic>>((entry) {
+        return entry;
       }).toList();
-      print(values);
-      final places = values.map(
+      // print(values);
+      List<TravelPlacesModel> places = values.map<TravelPlacesModel>(
         (e) {
-          return TravelPlacesModel.fromJson(e);
+          return TravelPlacesModel.fromJson(e.value)..id = e.key.toString();
         },
       ).toList();
       print(places);
